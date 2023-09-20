@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
 import backgroundImage from "../assets/background.svg";
-import { MainContext } from "../../context/MainContext";
 
 const Home = () => {
-  const { year } = useContext(MainContext);
   return (
     <div
       className="flex flex-col items-center justify-center h-screen p-5 text-center"
@@ -23,7 +20,7 @@ const Home = () => {
           Presented by The Faculty of Animal Science, Universitas Sebelas Maret,
           Surakarta, Indonesia Hybrid meeting,
         </h1>
-        <p className="text-2xl font-plus-jakarta">August 15th - 16th, {year}</p>
+        <p className="text-2xl font-plus-jakarta">August 15th - 16th, 2023</p>
       </div>
     </div>
   );

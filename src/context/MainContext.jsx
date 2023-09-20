@@ -3,13 +3,13 @@ import { createContext, useState } from "react";
 export const MainContext = createContext();
 
 const MainProvider = ({ children }) => {
-  const [year, setYear] = useState("2023");
+  const [event, setEvent] = useState(1);
 
   return (
     <MainContext.Provider
       value={{
-        year,
-        setYear,
+        event,
+        setEvent,
       }}
     >
       {children}

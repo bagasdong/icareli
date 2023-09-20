@@ -1,19 +1,25 @@
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { API_BASE_URL, API_GAMBAR_URL } from "../../config";
+import { MainContext } from "../../context/MainContext";
 
 function Artikel() {
   const [currentPage, setCurrentPage] = useState(1);
   const [semuaCards, setSemuaCards] = useState([]);
   const cardsPerPage = 4;
+  const { event } = useContext(MainContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}news`);
-        setSemuaCards(response.data);
+        const filteredData = response.data.filter(
+          (item) => item.event === event
+        );
+        setSemuaCards(filteredData);
+        console.log(event);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -42,7 +48,11 @@ function Artikel() {
           key={i}
           className={`
                 btn p-2 px-4 m-1 rounded-full text-lg 
-                ${currentPage === i ? "active-page" : "bg-white border border-dark text-dark hover:bg-gray-200"}
+                ${
+                  currentPage === i
+                    ? "active-page"
+                    : "bg-white border border-dark text-dark hover:bg-gray-200"
+                }
               `}
           onClick={() => handlePageClick(i)}
         >
@@ -51,7 +61,9 @@ function Artikel() {
       );
     }
 
-    return <div className="flex justify-center mt-5 mb-5 space-x-2">{buttons}</div>;
+    return (
+      <div className="flex justify-center mt-5 mb-5 space-x-2">{buttons}</div>
+    );
   };
 
   semuaCards.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -72,13 +84,22 @@ function Artikel() {
 
       <div className="container font-plus-jakarta">
         {displayedCards.map((card) => (
-          <div key={card.judul_artikel} className="mb-4 flex flex-row border rounded-lg shadow-lg bg-white overflow-hidden w-3/4 mx-auto">
+          <div
+            key={card.judul_artikel}
+            className="mb-4 flex flex-row border rounded-lg shadow-lg bg-white overflow-hidden w-3/4 mx-auto"
+          >
             <div className="flex-none w-1/4">
-              <img src={`${API_GAMBAR_URL}${card.gambar_news}`} alt={card.title} className="object-cover h-full w-full" />
+              <img
+                src={`${API_GAMBAR_URL}${card.gambar_news}`}
+                alt={card.title}
+                className="object-cover h-full w-full"
+              />
             </div>
 
             <div className="flex flex-1 p-3 flex-col justify-between">
-              <h1 className="card-title break-words mb-2 text-3xl">{card.title}</h1>
+              <h1 className="card-title break-words mb-2 text-3xl">
+                {card.title}
+              </h1>
               <p className="card-text text-sm">
                 <span className="font-semibold">
                   <FontAwesomeIcon icon={faCalendarDays} className="me-2" />
@@ -89,7 +110,10 @@ function Artikel() {
                   }).format(new Date(card.date))}
                 </span>
               </p>
-              <p className="card-text mb-3" dangerouslySetInnerHTML={sliceDescription(card.deskripsi, 2)}></p>
+              <p
+                className="card-text mb-3"
+                dangerouslySetInnerHTML={sliceDescription(card.deskripsi, 2)}
+              ></p>
               <a
                 href={`/news/${card.id}`}
                 className="bg-transparent border-[2px] border-[#00FF94] text-[#603a15] rounded-full flex justify-center items-center text-center transition-all ease-in-out duration-300 hover:bg-[#00FF94] hover:text-white w-40 h-12 text-sm"
@@ -100,7 +124,9 @@ function Artikel() {
           </div>
         ))}
 
-        <div className="d-flex justify-content-center mt-3 mb-5">{renderPaginationButtons(semuaCards.length)}</div>
+        <div className="d-flex justify-content-center mt-3 mb-5">
+          {renderPaginationButtons(semuaCards.length)}
+        </div>
       </div>
     </>
   );

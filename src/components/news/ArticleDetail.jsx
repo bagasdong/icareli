@@ -24,13 +24,36 @@ function ArticleDetail() {
   }, []);
 
   useEffect(() => {
-    const foundArticle = articles.find((article) => article.id.toString() === id);
+    const foundArticle = articles.find(
+      (article) => article.id.toString() === id
+    );
     setArticle(foundArticle);
   }, [id, articles]);
 
   const formatDate = (dateString) => {
-    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-    const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    const days = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+    ];
+    const months = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
     const date = new Date(dateString);
     const day = days[date.getDay()];
     const month = months[date.getMonth()];
@@ -42,14 +65,38 @@ function ArticleDetail() {
       <Header />
       {article && (
         <div className="container font-plus-jakarta">
-          <h1 className="text-4xl" style={{ textAlign: "center", fontWeight: "bold", marginTop: "20px" }}>
+          <h1
+            className="text-4xl"
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              marginTop: "20px",
+            }}
+          >
             {article.title}
           </h1>
-          <small className="text-lg" style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+          <small
+            className="text-lg"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "10px",
+            }}
+          >
             {formatDate(article.date)}
           </small>
-          <div style={{ display: "flex", justifyContent: "center", padding: "10px" }}>
-            <img className="article-image rounded-xl" src={`${API_GAMBAR_URL}${article.gambar_news}`} alt={article.title} />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px",
+            }}
+          >
+            <img
+              className="article-image rounded-xl"
+              src={`${API_GAMBAR_URL}${article.gambar_news}`}
+              alt={article.title}
+            />
           </div>
           <div style={{ margin: "0 auto", maxWidth: "80%", marginTop: "40px" }}>
             <p dangerouslySetInnerHTML={{ __html: article.deskripsi }}></p>
@@ -58,10 +105,18 @@ function ArticleDetail() {
             <h2 className="text-left font-bold mb-5">Another News</h2>
             <div className="mt-3 flex flex-row gap-5">
               {articles.slice(-3).map((art) => (
-                <Link key={art.id} to={`/news/${art.id}`} className="group no-underline hover:underline text-current">
+                <Link
+                  key={art.id}
+                  to={`/news/${art.id}`}
+                  className="group no-underline hover:underline text-current"
+                >
                   <div className="article-card p-3 border w-64 h-auto max-w-md rounded shadow hover:shadow-lg transition-all flex flex-col items-center">
                     <div className="h-32 w-48 overflow-hidden relative rounded mb-3">
-                      <img className="absolute top-0 left-0 w-full h-full object-cover rounded" src={`${API_GAMBAR_URL}${art.gambar_news}`} alt={art.title} />
+                      <img
+                        className="absolute top-0 left-0 w-full h-full object-cover rounded"
+                        src={`${API_GAMBAR_URL}${art.gambar_news}`}
+                        alt={art.title}
+                      />
                     </div>
                     <h6 className="text-center break-words">{art.title}</h6>
                   </div>
