@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import PropTypes from "prop-types";
 
 export const MainContext = createContext();
 
@@ -15,6 +16,10 @@ const MainProvider = ({ children }) => {
       {children}
     </MainContext.Provider>
   );
+};
+
+MainProvider.propTypes = {
+  children: PropTypes.element,
 };
 
 export default MainProvider;

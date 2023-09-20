@@ -19,14 +19,13 @@ function Artikel() {
           (item) => item.event === event
         );
         setSemuaCards(filteredData);
-        console.log(event);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [event]);
 
   const paginate = (cards) => {
     const startIndex = (currentPage - 1) * cardsPerPage;
